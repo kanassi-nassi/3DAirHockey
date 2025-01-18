@@ -1,0 +1,33 @@
+<launch>
+    <!-- RealSense Camera Settings -->
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+        <arg name="align_depth" value="true"/>
+        <arg name="filters" value="pointcloud, decimation, spatial, temporal"/>
+        <!-- <arg name="initial_reset" value="true"/> -->
+    </include>
+
+    <!-- Hand Tracking Parameters -->
+    <arg name="max_num_hands" default="2"/>
+    <arg name="min_detection_confidence" default="0.7"/>
+    <arg name="min_tracking_confidence" default="0.5"/>
+
+    <!-- Visualization Config -->
+    <!-- <arg name="rvizconfig" default="$(find hand_tracking)/rviz/hand_tracking.rviz" /> -->
+    
+    <!-- Nodes -->
+    <node name="hand_tracking_node" pkg="hand_tracking" type="hand_tracking_node.py" output="screen">
+        <param name="max_num_hands" value="$(arg max_num_hands)"/>
+        <param name="min_detection_confidence" value="$(arg min_detection_confidence)"/>
+        <param name="min_tracking_confidence" value="$(arg min_tracking_confidence)"/>
+    </node>
+
+    <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" /> -->
+
+    <!-- Gazeboの起動 -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find hand_tracking)/models/bouncing_object.world"/>
+    </include>
+
+    <!-- ROSノードの起動 -->
+    <node name="bouncing_object_control" pkg="hand_tracking" type="bouncing_object_control" output="screen"/>
+</launch>

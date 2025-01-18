@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<robot name="simulation_space">
+    <!-- Define materials -->
+    <material name="transparent">
+        <color rgba="0.3 0.3 0.3 0.1"/>
+    </material>
+    
+    <material name="red">
+        <color rgba="1 0 0 1"/>
+    </material>
+
+    <link name="world"/>
+    
+    <link name="space">
+        <visual>
+            <geometry>
+                <box size="1.6 0.8 0.8"/>
+            </geometry>
+            <material name="transparent"/>
+            <origin xyz="-0.8 0 0.4" rpy="0 0 0"/>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="1.6 0.8 0.8"/>
+            </geometry>
+            <origin xyz="-0.8 0 0.4" rpy="0 0 0"/>
+        </collision>
+    </link>
+
+    <link name="ball_link">
+        <visual>
+            <geometry>
+                <sphere radius="0.02"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+        <collision>
+            <geometry>
+                <sphere radius="0.02"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="world_to_space" type="fixed">
+        <parent link="world"/>
+        <child link="space"/>
+        <origin xyz="0 0 0"/>
+    </joint>
+
+    <joint name="world_to_ball" type="fixed">
+        <parent link="world"/>
+        <child link="ball_link"/>
+        <origin xyz="0.4 0.8 0.4"/>
+    </joint>
+</robot>

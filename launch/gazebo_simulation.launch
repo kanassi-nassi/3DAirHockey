@@ -1,0 +1,9 @@
+<launch>
+  <!-- Gazeboの起動 -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find 3Dairhockey)/worlds/bouncing_object.world"/>
+  </include>
+
+  <!-- ROSノードの起動 -->
+  <node name="bouncing_object_control" pkg="hand_tracking" type="bouncing_object_control" output="screen"/>
+</launch>
